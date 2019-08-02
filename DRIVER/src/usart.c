@@ -1,9 +1,8 @@
 #include "usart.h"
 
-
 static 	UART_HandleTypeDef UartHandle;
 
-void usart_init(void)
+void usart1_init(void)
 {
 
 	UartHandle.Instance        = USART1;
@@ -14,38 +13,56 @@ void usart_init(void)
   UartHandle.Init.Parity       = UART_PARITY_NONE;
   UartHandle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
   UartHandle.Init.Mode         = UART_MODE_TX_RX;
-  UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
 
-  if(HAL_UART_DeInit(&UartHandle) != HAL_OK)
-  {
-		while(1){};
-  }  
-  if(HAL_UART_Init(&UartHandle) != HAL_OK)
-  {
-		while(1){};
-  }
+	HAL_UART_Init(&UartHandle);
+
 }
 
-/* USER CODE BEGIN 1 */
-#ifdef __GNUC__
-  /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
-     set to 'Yes') calls __io_putchar() */
-  #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-  #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
-/**
-  * @brief  Retargets the C library printf function to the USART.
-  * @param  None
-  * @retval None
-  */
-PUTCHAR_PROTOTYPE
+void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the EVAL_COM1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&UartHandle, (uint8_t *)&ch, 1, 0xFFFF);
- 
-  return ch;
+    //GPIO端口设置
+	GPIO_InitTypeDef GPIO_Initure;
+	
+	if(huart->Instance==USART1)//如果是串口1，进行串口1 MSP初始化
+	{
+		__HAL_RCC_GPIOB_CLK_ENABLE();			//使能GPIOB时钟
+		__HAL_RCC_USART1_CLK_ENABLE();			//使能USART1时钟
+	
+		GPIO_Initure.Pin=GPIO_PIN_6;			
+		GPIO_Initure.Mode=GPIO_MODE_AF_PP;		//复用推挽输出
+		GPIO_Initure.Pull=GPIO_PULLUP;			//上拉
+		GPIO_Initure.Speed=GPIO_SPEED_FAST;		//高速
+		GPIO_Initure.Alternate=GPIO_AF7_USART1;	//复用为USART1
+		HAL_GPIO_Init(GPIOB,&GPIO_Initure);	   	
+
+		GPIO_Initure.Pin=GPIO_PIN_7;			
+		HAL_GPIO_Init(GPIOB,&GPIO_Initure);	   
+	}
 }
+
+struct __FILE 
+{ 
+	int handle; 
+}; 
+
+void _sys_exit(int x) 
+{ 
+	x = x; 
+} 
+
+FILE __stdout; 
+
+int fputc(int ch,FILE* f)
+{
+	
+	while(__HAL_UART_GET_FLAG(&UartHandle,UART_FLAG_TC)==RESET);
+	
+	
+	USART1->TDR = (uint8_t)ch;
+	
+	return ch;
+}
+
+
 /* USER CODE END 1 */
 

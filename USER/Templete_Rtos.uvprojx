@@ -402,9 +402,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>SYSTEM</GroupName>
-        </Group>
-        <Group>
           <GroupName>CORE</GroupName>
           <Files>
             <File>
@@ -936,6 +933,11 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVER\src\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVER\src\sleep.c</FilePath>
             </File>
           </Files>
         </Group>

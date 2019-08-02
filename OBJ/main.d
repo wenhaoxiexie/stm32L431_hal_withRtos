@@ -69,3 +69,13 @@
 ..\obj\main.o: ..\HALLIB\Inc\stm32l4xx_ll_usb.h
 ..\obj\main.o: ..\DRIVER\inc\usart.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\main.o: ..\FreeRtos\include\FreeRTOS.h
+..\obj\main.o: ..\FreeRtos\include\FreeRTOSConfig.h
+..\obj\main.o: ..\FreeRtos\include\projdefs.h
+..\obj\main.o: ..\FreeRtos\include\portable.h
+..\obj\main.o: ..\FreeRtos\include\deprecated_definitions.h
+..\obj\main.o: ..\FreeRtos\portable\RVDS\ARM_CM4F\portmacro.h
+..\obj\main.o: ..\FreeRtos\include\mpu_wrappers.h
+..\obj\main.o: ..\FreeRtos\include\task.h
+..\obj\main.o: ..\FreeRtos\include\list.h

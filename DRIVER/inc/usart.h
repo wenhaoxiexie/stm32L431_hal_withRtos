@@ -5,7 +5,7 @@
 #include "stm32l431xx.h"
 #include "stm32l4xx_hal.h"
 
-void usart_init(void);
+void usart1_init(void);
 
 #endif
 
